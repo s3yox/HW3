@@ -1,0 +1,18 @@
+public class NaturalN extends IntegerN {
+  private int naturaln;
+  
+  public NaturalN(int naturaln){
+    super(naturaln);
+    if(naturaln > 0)
+      this.naturaln = naturaln;
+    if(naturaln < 0)
+      throw new ArithmeticException("cannot be negative ");
+  }
+  public int getNat(){
+    return naturaln;
+  }
+  @Override
+  public String toString(){
+    return String.valueOf(getNat());
+  }
+}

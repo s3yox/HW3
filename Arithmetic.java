@@ -1,0 +1,423 @@
+public abstract class Arithmetic{
+  
+  /**
+   * Adds two numbers together.
+   *
+   * @param val1 the first number
+   * @param val2 the second number
+   * @return the result of adding the two numbers together
+   * @throws ArithmeticException if the operation results in an invalid value (e.g. dividing by zero)
+   */
+  public static Arithmetic add(Arithmetic val1,Arithmetic val2){
+    if (val1 instanceof NaturalN && val2 instanceof NaturalN) {
+      return new NaturalN(((NaturalN) val1).getNat() + ((NaturalN) val2).getNat());
+    }
+    if (val1 instanceof IntegerN && val2 instanceof IntegerN) {
+      return new IntegerN(((IntegerN) val1).getInt() + ((IntegerN) val2).getInt());
+    }
+    if (val1 instanceof RationalN && val2 instanceof RationalN) {
+      int numerator1 = ((RationalN) val1).getNumerator();
+      int denominator1 = ((RationalN) val1).getDenominator();
+      int numerator2 = ((RationalN) val2).getNumerator();
+      int denominator2 = ((RationalN) val2).getDenominator();
+      int newNumerator = (numerator1 * denominator2) + (numerator2 * denominator1);
+      int newDenominator = denominator1 * denominator2;
+      return new RationalN(newNumerator, newDenominator);
+    }
+    if (val1 instanceof RealN && val2 instanceof RealN) {
+      double real1 = ((RealN) val1).getRealPart();
+      double real2 = ((RealN) val2).getRealPart();
+      double result = real1 + real2;
+      return new RealN(result);
+    }
+    if(val1 instanceof ComplexN && val2 instanceof ComplexN){
+      double realpart1 = ((ComplexN) val1).getRealPart();
+      double realpart2 = ((ComplexN) val2).getRealPart();
+      double imaginary1 = ((ComplexN) val1).getImaginaryPart();
+      double imaginary2 = ((ComplexN) val2).getImaginaryPart();
+      double newrp = realpart1 + realpart2;
+      double newim = imaginary1 + imaginary2;
+      return new ComplexN(newrp,newim);
+    }
+    if(val1 instanceof NaturalN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      int natval = ((NaturalN) val1).getNat();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = natval + realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if(val1 instanceof ComplexN && val2 instanceof NaturalN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      int natval = ((NaturalN) val2).getNat();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = natval + realpart;
+      return new ComplexN(newrp,imaginary); 
+    }
+    if(val1 instanceof IntegerN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double intval = ((IntegerN) val1).getInt();
+      double newrp = intval + realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if(val2 instanceof IntegerN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double intval = ((IntegerN) val2).getInt();
+      double newrp = intval + realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if (val1 instanceof RationalN && val2 instanceof ComplexN) {
+      int numerator = ((RationalN) val1).getNumerator();
+      int denominator = ((RationalN) val1).getDenominator();
+      double real2 = ((ComplexN) val2).getRealPart();
+      double imaginary2 = ((ComplexN) val2).getImaginaryPart();
+      // Add the rational number to the real part of the complex number
+      double newReal = (double) numerator / denominator + real2;
+      return new ComplexN(newReal, imaginary2);      
+    }
+    if (val1 instanceof ComplexN && val2 instanceof RationalN) {
+      int numerator = ((RationalN) val2).getNumerator();
+      int denominator = ((RationalN) val2).getDenominator();
+      double real = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      // Add the rational number to the real part of the complex number
+      double newReal = (double) numerator / denominator + real;
+      return new ComplexN(newReal, imaginary); 
+    }
+    if(val1 instanceof RealN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double real = ((RealN) val1).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = real + realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val2 instanceof RealN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double real = ((RealN) val2).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = real + realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    throw new IllegalArgumentException("Invalid input types for addition");
+  }
+  
+  /**
+   * Subtracts one number from another.
+   *
+   * @param val1 the first number
+   * @param val2 the second number
+   * @return the result of subtracting the second number from the first  and turned what object type is the result.
+   * @throws ArithmeticException if the operation results in an invalid value (e.g. subtracting a larger natural number from a smaller one)
+   */
+  public static Arithmetic substract(Arithmetic val1,Arithmetic val2){
+    if (val1 instanceof NaturalN && val2 instanceof NaturalN) {
+      return new NaturalN(((NaturalN) val1).getNat() - ((NaturalN) val2).getNat());
+    }
+    if (val1 instanceof IntegerN && val2 instanceof IntegerN) {
+      return new IntegerN(((IntegerN) val1).getInt() - ((IntegerN) val2).getInt());
+    }
+    if (val1 instanceof RationalN && val2 instanceof RationalN) {
+      int numerator1 = ((RationalN) val1).getNumerator();
+      int denominator1 = ((RationalN) val1).getDenominator();
+      int numerator2 = ((RationalN) val2).getNumerator();
+      int denominator2 = ((RationalN) val2).getDenominator();
+      int newNumerator = (numerator1 * denominator2) - (numerator2 * denominator1);
+      int newDenominator = denominator1 * denominator2;
+      return new RationalN(newNumerator, newDenominator);
+    }
+    if (val1 instanceof RealN && val2 instanceof RealN) {
+      return new RealN(((RealN) val1).getRealPart() - ((RealN) val2).getRealPart());
+    }
+    if(val1 instanceof ComplexN && val2 instanceof ComplexN){
+      double realpart1 = ((ComplexN) val1).getRealPart();
+      double realpart2 = ((ComplexN) val2).getRealPart();
+      double imaginary1 = ((ComplexN) val1).getImaginaryPart();
+      double imaginary2 = ((ComplexN) val2).getImaginaryPart();
+      double newrp = realpart1 - realpart2;
+      double newim = imaginary1 - imaginary2;
+      return new ComplexN(newrp,newim);
+    }
+    if(val1 instanceof NaturalN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      int natval = ((NaturalN) val1).getNat();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = natval - realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val2 instanceof NaturalN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      int natval = ((NaturalN) val2).getNat();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = natval - realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val1 instanceof IntegerN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double intval = ((IntegerN) val1).getInt();
+      double newrp = intval - realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if(val2 instanceof IntegerN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double intval = ((IntegerN) val2).getInt();
+      double newrp = intval - realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if (val1 instanceof RationalN && val2 instanceof ComplexN) {
+      int numerator = ((RationalN) val1).getNumerator();
+      int denominator = ((RationalN) val1).getDenominator();
+      double real = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newReal = (double) numerator / denominator - real;
+      return new ComplexN(newReal, imaginary);      
+    }
+    if (val1 instanceof ComplexN && val2 instanceof RationalN) {
+      int numerator = ((RationalN) val2).getNumerator();
+      int denominator = ((RationalN) val2).getDenominator();
+      double real = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      // Add the rational number to the real part of the complex number
+      double newReal = (double) numerator / denominator - real;
+      return new ComplexN(newReal, imaginary); 
+    }
+    if(val1 instanceof RealN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double real = ((RealN) val1).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = real - realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val2 instanceof RealN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double real = ((RealN) val2).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = real - realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    
+    throw new IllegalArgumentException("Invalid input types for substraction");
+  }
+  
+  /**
+   * Multiplies two numbers together.
+   *
+   * @param val1 the first number
+   * @param val2 the second number
+   * @return the result of multiplying the two numbers together and turned what object type is the result.
+   * @throws ArithmeticException if the operation results in an invalid value
+   */
+  public static Arithmetic multiply(Arithmetic val1,Arithmetic val2){
+    if (val1 instanceof NaturalN && val2 instanceof NaturalN) {
+      return new NaturalN(((NaturalN) val1).getNat() * ((NaturalN) val2).getNat());
+    }
+    if (val1 instanceof IntegerN && val2 instanceof IntegerN) {
+      return new IntegerN(((IntegerN) val1).getInt() * ((IntegerN) val2).getInt());
+    }
+    if (val1 instanceof RationalN && val2 instanceof RationalN) {
+      int numerator1 = ((RationalN) val1).getNumerator();
+      int denominator1 = ((RationalN) val1).getDenominator();
+      int numerator2 = ((RationalN) val2).getNumerator();
+      int denominator2 = ((RationalN) val2).getDenominator();
+      int newNumerator = numerator1 * numerator2;
+      int newDenominator = denominator1 * denominator2;
+      return new RationalN(newNumerator, newDenominator);
+    }
+    if (val1 instanceof RealN && val2 instanceof RealN) {
+      return new RealN(((RealN) val1).getRealPart() * ((RealN) val2).getRealPart());
+    }
+    if(val1 instanceof ComplexN && val2 instanceof ComplexN){
+      double realpart1 = ((ComplexN) val1).getRealPart();
+      double realpart2 = ((ComplexN) val2).getRealPart();
+      double imaginary1 = ((ComplexN) val1).getImaginaryPart();
+      double imaginary2 = ((ComplexN) val2).getImaginaryPart();
+      double newrp = (realpart1 * realpart2) - (imaginary1 * imaginary2);
+      double newim = (realpart1 * imaginary2) + (imaginary1 * realpart2);
+      return new ComplexN(newrp,newim);
+    }
+    if(val1 instanceof NaturalN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      int natval = ((NaturalN) val1).getNat();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = natval * realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if(val1 instanceof ComplexN && val2 instanceof NaturalN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      int natval = ((NaturalN) val2).getNat();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = natval * realpart;
+      return new ComplexN(newrp,imaginary); 
+    }
+    if(val1 instanceof IntegerN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double intval = ((IntegerN) val1).getInt();
+      double newrp = intval * realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if(val2 instanceof IntegerN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double intval = ((IntegerN) val2).getInt();
+      double newrp = intval * realpart;
+      return new ComplexN(newrp,imaginary);   
+    }
+    if (val1 instanceof RationalN && val2 instanceof ComplexN) {
+      int numerator = ((RationalN) val1).getNumerator();
+      int denominator = ((RationalN) val1).getDenominator();
+      double real = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = (double) numerator / denominator * real;
+      double newim = (double) numerator / denominator * imaginary;
+      return new ComplexN(newrp, newim);      
+    }
+    if (val1 instanceof ComplexN && val2 instanceof RationalN) {
+      int numerator = ((RationalN) val2).getNumerator();
+      int denominator = ((RationalN) val2).getDenominator();
+      double real = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = real * (double) numerator / denominator;
+      double newim = imaginary * (double) numerator / denominator;
+      return new ComplexN(newrp, newim); 
+    }
+    if(val1 instanceof RealN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double real = ((RealN) val1).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = real * realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val2 instanceof RealN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double real = ((RealN) val2).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = real * realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    throw new IllegalArgumentException("Invalid input types for multiply"); 
+  }
+  
+  /**
+   * Divides one number by another.
+   *
+   * @param val1 the first number
+   * @param val2 the second number
+   * @return the result of dividing the first number by the second
+   * @throws ArithmeticException if the operation results in an invalid value (e.g. dividing by zero)
+   */
+  
+  public static Arithmetic divide(Arithmetic val1,Arithmetic val2){
+    if (val1 instanceof NaturalN && val2 instanceof NaturalN) {
+      int valu2 = ((NaturalN) val2).getNat();
+      if ( valu2 == 0) {
+        throw new ArithmeticException("Cannot divide by zero.");
+      }
+      return new NaturalN(((NaturalN) val1).getNat() / ((NaturalN) val2).getNat());
+    }
+    if (val1 instanceof IntegerN && val2 instanceof IntegerN) {
+      return new RationalN(((IntegerN) val1).getInt(),((IntegerN) val2).getInt());
+    }
+    if (val1 instanceof RationalN && val2 instanceof RationalN) {
+      int numerator1 = ((RationalN) val1).getNumerator();
+      int denominator1 = ((RationalN) val1).getDenominator();
+      int numerator2 = ((RationalN) val2).getNumerator();
+      int denominator2 = ((RationalN) val2).getDenominator();
+      if (denominator2 == 0) {
+        throw new ArithmeticException("Cannot divide by zero.");
+      }
+      int newNumerator = numerator1 * denominator2;
+      int newDenominator = denominator1 * numerator2;
+      return new RationalN(newNumerator, newDenominator);
+    }
+    if (val1 instanceof RealN && val2 instanceof RealN) {
+      double valu2 = ((RealN) val2).getRealPart();
+      if (valu2 == 0) {
+        throw new ArithmeticException("Cannot divide by zero.");
+      }
+      return new RealN(((RealN) val1).getRealPart() / ((RealN) val2).getRealPart());
+    }
+    if(val1 instanceof ComplexN && val2 instanceof ComplexN){
+      double realpart1 = ((ComplexN) val1).getRealPart();
+      double realpart2 = ((ComplexN) val2).getRealPart();
+      double imaginary1 = ((ComplexN) val1).getImaginaryPart();
+      double imaginary2 = ((ComplexN) val2).getImaginaryPart();
+      if(realpart2 == 0 && imaginary2 == 0)
+        throw new ArithmeticException("Cannot divide by zero.");
+      double denominator = (realpart2 * realpart2) + (imaginary2 * imaginary2);
+      double newrp = ((realpart1 * realpart2) + (imaginary1 * imaginary2)) / denominator;
+      double newim = ((imaginary1 * realpart2) - (realpart1 * imaginary2)) / denominator;
+      return new ComplexN(newrp, newim);
+      
+    }
+    if(val1 instanceof NaturalN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      int natval = ((NaturalN) val1).getNat();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = natval / realpart;
+      double newim = natval/imaginary;
+      return new ComplexN(newrp,newim);   
+    }
+    if(val1 instanceof ComplexN && val2 instanceof NaturalN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      int natval = ((NaturalN) val2).getNat();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = realpart / natval;
+      double newim = imaginary / natval;
+      return new ComplexN(newrp,newim); 
+    }
+    if(val1 instanceof IntegerN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double intval = ((IntegerN) val1).getInt();
+      double newrp = intval / ((realpart * realpart) + (imaginary * imaginary));
+      double newim = -intval * imaginary / ((realpart * realpart) + (imaginary * imaginary));
+      return new ComplexN(newrp,newim);   
+    }
+    if(val2 instanceof IntegerN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double intval = ((IntegerN) val2).getInt();
+      double newrp = intval / ((realpart * realpart) + (imaginary * imaginary));
+      double newim = -intval * imaginary / ((realpart * realpart) + (imaginary * imaginary));
+      return new ComplexN(newrp,newim);   
+    }
+    if (val1 instanceof RationalN && val2 instanceof ComplexN) {
+      int numerator = ((RationalN) val1).getNumerator();
+      int denominator = ((RationalN) val1).getDenominator();
+      double real = ((ComplexN) val2).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newReal = (double) numerator / denominator / (real * real + imaginary * imaginary);
+      double newImaginary = (double) -numerator * imaginary / denominator / (real * real + imaginary * imaginary);
+      return new ComplexN(newReal, newImaginary);      
+    }
+    if (val1 instanceof ComplexN && val2 instanceof RationalN) {
+      int numerator = ((RationalN) val2).getNumerator();
+      int denominator = ((RationalN) val2).getDenominator();
+      double real = ((ComplexN) val1).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newReal = real * denominator / numerator;
+      double newImaginary = imaginary * denominator / numerator;
+      return new ComplexN(newReal, newImaginary); 
+    }
+    if(val1 instanceof RealN && val2 instanceof ComplexN){
+      double realpart = ((ComplexN) val2).getRealPart();
+      double real = ((RealN) val1).getRealPart();
+      double imaginary = ((ComplexN) val2).getImaginaryPart();
+      double newrp = real / realpart;
+      return new ComplexN(newrp,imaginary);
+    }
+    if(val2 instanceof RealN && val1 instanceof ComplexN){
+      double realpart = ((ComplexN) val1).getRealPart();
+      double real = ((RealN) val2).getRealPart();
+      double imaginary = ((ComplexN) val1).getImaginaryPart();
+      double newrp = real / realpart;
+      
+      return new ComplexN(newrp,imaginary);
+    }
+    throw new IllegalArgumentException("Invalid input types for multiply"); 
+  }
+  
+}

@@ -1,0 +1,36 @@
+public class ComplexN extends Arithmetic {
+    private double realPart;
+    private double imaginaryPart;
+
+    // Constructor that takes two double parameters for the real and imaginary parts of the complex number
+    public ComplexN(double realPart, double imaginaryPart) {
+        this.realPart = realPart;
+        this.imaginaryPart = imaginaryPart;
+    }
+
+    // Getter method for the real part of the complex number
+    public double getRealPart() {
+        return realPart;
+    }
+
+    // Getter method for the imaginary part of the complex number
+    public double getImaginaryPart() {
+        return imaginaryPart;
+    }
+
+    // Overridden toString method that returns a string representation of the complex number in the form "realPart + imaginaryParti"
+    @Override
+    public String toString() {
+        return String.valueOf(getRealPart() + " + " + getImaginaryPart() + "i");
+    }
+
+    // Overridden equals method that compares the values of the real and imaginary parts of the complex number to the values of the real and imaginary parts of the parameter object
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ComplexN) {
+            ComplexN c = (ComplexN) o;
+            return realPart == c.realPart && imaginaryPart == c.imaginaryPart;
+        }
+        return false;
+    }
+}

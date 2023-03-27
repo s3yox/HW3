@@ -1,0 +1,26 @@
+public class IntegerN extends RationalN {
+  private int intn;
+  
+  public IntegerN(int intn){
+    super(intn,1);
+    this.intn = intn;
+  }
+  public int getInt(){
+    return intn;
+  }
+  
+  public String toString(){
+    return String.valueOf(getInt());
+  }
+   @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof IntegerN)) {
+            return false;
+        }
+        IntegerN n = (IntegerN) o;
+        return intn == n.intn;
+    }
+}

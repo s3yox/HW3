@@ -1,0 +1,65 @@
+public class RationalN extends Arithmetic{
+  private int numerator;
+  private int denominator;
+  public RationalN(int numerator, int denominator){
+    
+    if (denominator == 0) {
+      throw new ArithmeticException("Denominator cannot be 0");
+    }
+    this.numerator = numerator;
+    this.denominator = denominator;
+  }
+  
+  public int getNumerator() {
+    return numerator;
+  }
+  
+  public int getDenominator() {
+    return denominator;
+  }
+  
+  /*
+   * Calculates two numbers great common divisor.
+   *
+   * @param a the first number
+   * @param b the second number
+   * @return numbers's gcd
+   */
+  private int greatestCommonDivisor(int a, int b) {
+    // Implementation of Euclidean algorithm to find the greatest common divisor of two integers
+    while (b != 0) {
+      int temp = b;
+      b = a % b;
+      a = temp;
+    }
+    return a;
+  }
+  
+  @Override
+  public String toString() {
+    int gcd = greatestCommonDivisor(numerator, denominator);
+    int reducedNumerator = numerator / gcd;
+    int reducedDenominator = denominator / gcd;
+    if (reducedDenominator == 1) {
+      return String.valueOf(reducedNumerator);
+    }
+    if (numerator < 0 && denominator < 0) {
+      return String.valueOf(-reducedNumerator) + "/" + String.valueOf(-reducedDenominator);
+    }
+    if (numerator < 0 || denominator < 0) {
+      return "-" + String.valueOf(Math.abs(reducedNumerator)) + "/" + String.valueOf(Math.abs(reducedDenominator));
+    }
+    return String.valueOf(reducedNumerator) + "/" + String.valueOf(reducedDenominator);
+  }
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof RationalN)) {
+      return false;
+    }
+    RationalN r = (RationalN) o;
+    return numerator == r.numerator && denominator == r.denominator;
+  }
+}

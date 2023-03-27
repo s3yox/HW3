@@ -1,0 +1,29 @@
+public class RealN extends Arithmetic{
+  
+  private double real;
+  
+  public RealN(double real){
+    this.real = real;
+  }
+  
+  public double getReal(){
+    return real;
+  }
+  
+  @Override
+  public String toString(){
+    return String.valueOf(getReal());
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof RealN)) {
+      return false;
+    }
+    RealN r = (RealN) o;
+    return Double.compare(real, r.real) == 0;
+  }
+}
